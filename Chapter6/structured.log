@@ -1,0 +1,5 @@
+{"time":"2023-09-29T11:42:17.945185-04:00","level":"INFO","msg":"this is default logging"}
+{"time":"2023-09-29T11:42:17.945346-04:00","level":"WARN","msg":"keep an eye on this, it might be an issue"}
+{"time":"2023-09-29T11:42:17.945352-04:00","level":"ERROR","msg":"oh no, an error happened here!"}
+{"time":"2023-09-29T11:42:17.945358-04:00","level":"DEBUG","msg":"this is good while developing ..."}
+{"time":"2023-09-29T11:42:17.945363-04:00","level":"INFO","msg":"this is a more complex message","accepted_values":"key/value pairs with specific types for marshalling","an int:":30,"grouped_info":{"you_can":"do this too"}}
