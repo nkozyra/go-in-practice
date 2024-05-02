@@ -1,0 +1,14 @@
+{{ template "head" .}}
+
+<body>
+  <h1>{{.Title}}</h1>
+  <p>{{.Content}}</p>
+  {{ range .Comments }}
+  <div class="comment">
+    {{.Text}}
+    <div>by {{.Username}}</div>
+  </div>
+  {{ end }}
+</body>
+
+</html>
