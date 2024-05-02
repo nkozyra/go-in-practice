@@ -1,0 +1,22 @@
+syntax = "proto3";
+package chat;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "./ch11";
+
+message Comment {
+	string username = 1;
+	string text = 2;
+	google.protobuf.Timestamp sent = 3;
+}
+
+message CommentMeta {
+	int32 commentLength = 1;
+	int32 previousCommentCount = 2;
+}
+
+service ChatService {
+  rpc RouteComments(Comment) returns (CommentMeta) {}
+	rpc GetComments() returns (stream Comment) {}
+}
