@@ -1,4 +1,10 @@
-import "pkg.go.dev/golang.org/x/exp/constraints"
+package main
+
+import (
+	"fmt"
+
+	"pkg.go.dev/golang.org/x/exp/constraints"
+)
 
 type Smallint int8
 
