@@ -14,10 +14,10 @@ func main() {
 	}
 	defer file.Close()
 
-	scan := bufio.NewScanner(file)
-	scan.Split(bufio.ScanLines)
+	scan := bufio.NewScanner(file) // # A
+	scan.Split(bufio.ScanLines)    // # B
 	lineJSON := make(map[string]interface{})
-	for scan.Scan() {
+	for scan.Scan() { // # C
 		if err := json.Unmarshal([]byte(scan.Text()), &lineJSON); err != nil {
 			log.Println(err)
 		} else {

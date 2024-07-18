@@ -6,9 +6,9 @@ import (
 )
 
 func main() {
-	data, err := os.ReadFile("myfile.txt")
+	data, err := os.ReadFile("myfile.txt") // # A
 	if err != nil {
 		panic(err)
 	}
-	log.Println(string(data))
+	log.Println(string(data)) // # B
 }

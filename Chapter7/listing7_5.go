@@ -5,11 +5,11 @@ import (
 )
 
 func main() {
-	file, err := os.Create("test.txt")
+	file, err := os.Create("test.txt") // # A
 	if err != nil {
 		panic(err)
 	}
-	defer file.Close()
+	defer file.Close() // # B
 
-	file.WriteString("test")
+	file.WriteString("test") // # C
 }

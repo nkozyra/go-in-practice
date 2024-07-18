@@ -7,8 +7,8 @@ import (
 )
 
 func main() {
-	timeout := 30 * time.Second
-	conn, err := net.DialTimeout("udp", "localhost:1902", timeout)
+	timeout := 30 * time.Second                                    // # A
+	conn, err := net.DialTimeout("udp", "localhost:1902", timeout) // # B
 	if err != nil {
 		panic("Failed to connect to localhost:1902")
 	}

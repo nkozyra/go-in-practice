@@ -6,7 +6,7 @@ import (
 )
 
 func main() {
-	src, err := os.Open("test.txt")
+	src, err := os.Open("test.txt") // # A
 	if err != nil {
 		panic(err)
 	}
@@ -18,7 +18,7 @@ func main() {
 	}
 	defer dest.Close()
 
-	_, err = io.Copy(dest, src)
+	_, err = io.Copy(dest, src) // # B
 	if err != nil {
 		panic(err)
 	}

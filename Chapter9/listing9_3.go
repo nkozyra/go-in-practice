@@ -5,14 +5,14 @@ import (
 	"net/http"
 )
 
-type comment struct {
+type comment struct { // # A
 	Username string
 	Text     string
 }
 
 type Page struct {
 	Title, Content string
-	Comments       []comment
+	Comments       []comment // # A
 }
 
 func routeComments(w http.ResponseWriter, r *http.Request) {
@@ -23,7 +23,7 @@ func routeComments(w http.ResponseWriter, r *http.Request) {
 			{Username: "Bill", Text: "Looks like a good example."},
 			{Username: "Jill", Text: "I really enjoyed this article."},
 			{Username: "Phil", Text: "I don’t like to read."},
-		},
+		}, // # B
 	}
 	t := template.Must(template.ParseFiles("templates/list.html"))
 	if err := t.Execute(w, p); err != nil {
@@ -33,9 +33,6 @@ func routeComments(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	http.HandleFunc("/comments", routeComments)
-
-	fileServer := http.FileServer(http.Dir("./static/"))
-	http.Handle("/static/", http.StripPrefix("/static", fileServer))
 	if err := http.ListenAndServe(":8085", nil); err != nil {
 		panic(err)
 	}
