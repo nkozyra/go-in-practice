@@ -1,15 +1,21 @@
 package main
 
 import (
-	"fmt"
-	"io/ioutil"
+	"io"
+	"log"
 	"net/http"
 )
 
 func main() {
-	resp, _ :=
-		http.Get("http://example.com/")
-	body, _ := ioutil.ReadAll(resp.Body)
-	fmt.Println(string(body))
-	resp.Body.Close()
+	resp, err := http.Get("http://example.com/") // #A
+	if err != nil {
+		log.Fatal("could not retrieve example.com", err) // #B
+	}
+	defer resp.Body.Close() // #C
+
+	body, err := io.ReadAll(resp.Body) // #D
+	if err != nil {
+		log.Fatal("could not read body", err) // #B
+	}
+	log.Println(string(body)) //#E
 }

@@ -1,15 +1,15 @@
 package main
 
-import (
-	"fmt"
-	"net/http"
+import ( // #B
+	"fmt"      // #B
+	"net/http" // #B
 )
 
-func hello(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprint(w, "Hello, my name is Inigo Montoya")
+func hello(w http.ResponseWriter, r *http.Request) { // #C
+	fmt.Fprint(w, "Hello, my name is Inigo Montoya") // #C
 }
 
-func main() {
-	http.HandleFunc("/", hello)
-	http.ListenAndServe("localhost:4000", nil)
+func main() { // #D
+	http.HandleFunc("/", hello)                // #D
+	http.ListenAndServe("localhost:4000", nil) // #D
 }

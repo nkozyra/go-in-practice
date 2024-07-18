@@ -5,14 +5,14 @@ import (
 	"time"
 )
 
-func count() {
-	for i := 0; i < 5; i++ {
-		fmt.Println(i)
-		time.Sleep(time.Millisecond * 1)
+func count() { // #A
+	for i := 0; i < 5; i++ { // #A
+		fmt.Println(i)                   // #A
+		time.Sleep(time.Millisecond * 5) // #A
 	}
 }
 func main() {
-	go count()
+	go count() // #B
 	time.Sleep(time.Millisecond * 2)
 	fmt.Println("Hello World")
 	time.Sleep(time.Millisecond * 5)
