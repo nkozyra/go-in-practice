@@ -1,41 +1,37 @@
 package main
 
 import (
-	"bufio"
+	"errors"
 	"fmt"
-	"net"
+	"io"
+	"os"
 )
 
 func main() {
-	listen()
+	var file io.ReadCloser
+	file, err := OpenCSV("data.csv") // # A
+	if err != nil {                  // # A
+		fmt.Printf("Error: %s", err) // # A
+		return                       // # A
+	} // # A
+	defer file.Close() // # B
+	// Do something with file.  // # C
 }
-func listen() {
-	listener, err := net.Listen("tcp", ":1026")
-	if err != nil {
-		fmt.Println("Failed to open port on 1026")
-		return
-	}
-	for {
-		conn, err := listener.Accept()
-		if err != nil {
-			fmt.Println("Error accepting connection")
-			continue
-		}
-		go handle(conn)
-	}
+func OpenCSV(filename string) (file *os.File, err error) { // # D
+	defer func() { // # E
+		if r := recover(); r != nil { // # E
+			file.Close()    // # E
+			err = r.(error) // # E
+		} // # E
+	}() // # E
+	file, err = os.Open(filename) // # F
+	if err != nil {               // # F
+		fmt.Printf("Failed to open file\n") // # F
+		return file, err                    // # F
+	} // # F
+	RemoveEmptyLines(file) // # G
+	return file, err
 }
-func handle(conn net.Conn) {
-	reader := bufio.NewReader(conn)
-	data, err := reader.ReadBytes('\n')
-	if err != nil {
-		fmt.Println("Failed to read from socket.")
-		conn.Close()
-	}
-	response(data, conn)
-}
-func response(data []byte, conn net.Conn) {
-	defer func() {
-		conn.Close()
-	}()
-	conn.Write(data)
+func RemoveEmptyLines(f *os.File) {
+	panic(errors.New("failed parse")) // # H
 }

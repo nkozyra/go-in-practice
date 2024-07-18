@@ -3,25 +3,21 @@ package main
 import (
 	"errors"
 	"fmt"
+	"log"
 )
 
-var ErrDivideByZero = errors.New("Can't divide by zero")
+var ErrTimeout = errors.New("The request timed out") // #A
+
+func SendRequest(req string) (string, error) {
+	return "", fmt.Errorf("we got an error: %w", ErrTimeout) // #B
+}
 
 func main() {
-	fmt.Println("Divide 1 by 0")
-	_, err := precheckDivide(1, 0)
-	if err != nil {
-		fmt.Printf("Error: %s\n", err)
+	if _, err := SendRequest("Hello"); err != nil {
+		if err == ErrTimeout {
+			log.Println("we got a timeout error") // #C
+		} else {
+			log.Println("we got some other error") // #D
+		}
 	}
-	fmt.Println("Divide 2 by 0")
-	divide(2, 0)
-}
-func precheckDivide(a, b int) (int, error) {
-	if b == 0 {
-		return 0, ErrDivideByZero
-	}
-	return divide(a, b), nil
-}
-func divide(a, b int) int {
-	return a / b
 }

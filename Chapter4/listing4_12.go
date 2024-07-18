@@ -1,11 +1,7 @@
 package main
 
-import "fmt"
+import "errors"
 
 func main() {
-	defer goodbye()
-	fmt.Println("Hello world.")
-}
-func goodbye() {
-	fmt.Println("Goodbye")
+	panic(errors.New("Something bad happened.")) // #A
 }

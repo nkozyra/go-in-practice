@@ -1,11 +1,18 @@
 package main
 
-import "fmt"
+import (
+	"errors"
+	"fmt"
+)
 
 func main() {
-	var msg string
-	defer func() {
-		fmt.Println(msg)
-	}()
-	msg = "Hello world"
+	defer func() { // #A
+		if err := recover(); err != nil { // #A
+			fmt.Printf("Trapped panic: %s (%T)\n", err, err) // #A
+		} // #A
+	}() // #A
+	yikes() // #B
+}
+func yikes() {
+	panic(errors.New("Something bad happened.")) // #C
 }

@@ -1,0 +1,18 @@
+package main
+
+import (
+	"errors"
+	"time"
+
+	"github.com/Masterminds/cookoo/safely" // # A
+)
+
+func message() { // # B
+	println("Inside goroutine")
+	panic(errors.New("Oops!"))
+}
+func main() {
+	safely.Go(message) // # C
+	println("Outside goroutine")
+	time.Sleep(1000) // # D
+}

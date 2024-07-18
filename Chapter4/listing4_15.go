@@ -3,8 +3,9 @@ package main
 import "fmt"
 
 func main() {
+	var msg string // #A
 	defer func() {
-		fmt.Println(msg)
+		fmt.Println(msg) // #B
 	}()
-	msg := "Hello world"
+	msg = "Hello world" // #C
 }

@@ -9,41 +9,41 @@ import (
 
 const MAX_TIMEOUTS = 5
 
-var ErrTimeout = errors.New("The request timed out")
-var ErrRejected = errors.New("The request was rejected")
+var ErrTimeout = errors.New("The request timed out")     // #A
+var ErrRejected = errors.New("The request was rejected") // #B
 
 func init() {
-	rand.Seed(time.Now().UnixNano())
+	rand.Seed(time.Now().UnixNano()) // #C
 }
 
 func main() {
-	response, err := SendRequest("Hello")
+	response, err := SendRequest("Hello") // #D
 
-	if err == ErrTimeout {
+	if errors.Is(err, ErrTimeout) {
 		timeouts := 0
-		for err == ErrTimeout {
+		for errors.Is(err, ErrTimeout) { // #E
 			timeouts++
-			fmt.Println("Timeout. Retrying.")
+			fmt.Println("Timeout. Retrying.") // #E
 			if timeouts == MAX_TIMEOUTS {
 				panic("too many timeouts!")
 			}
-			response, err = SendRequest("Hello")
+			response, err = SendRequest("Hello") // #E
 		}
 	}
 
-	if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(response)
-	}
+	if err != nil { // #F
+		fmt.Println(err) // #F
+	} else { // #G
+		fmt.Println(response) // #G
+	} // #G
 }
-func SendRequest(req string) (string, error) {
-	switch rand.Intn(3) % 3 {
-	case 0:
-		return "Success", nil
-	case 1:
-		return "", ErrRejected
-	default:
-		return "", ErrTimeout
-	}
+func SendRequest(req string) (string, error) { // #H
+	switch rand.Intn(3) % 3 { // #I
+	case 0: // #J
+		return "Success", nil // #I
+	case 1: // #J
+		return "", ErrRejected // #I
+	default: // #J
+		return "", ErrTimeout // #K
+	} // #K
 }
