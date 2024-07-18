@@ -1,7 +1,7 @@
 package main
 
 import (
-	"html/template"
+	"html/template" // # A
 	"net/http"
 )
 
@@ -10,14 +10,14 @@ type Page struct {
 }
 
 func displayPage(w http.ResponseWriter, r *http.Request) {
-	p := &Page{
-		Title:   "An Example",
-		Content: "Have fun stormin’ da castle.",
-	}
-	t := template.Must(template.ParseFiles("templates/simple.html"))
-	t.Execute(w, p)
+	p := &Page{ // # B
+		Title:   "An Example",                   // # B
+		Content: "Have fun stormin’ da castle.", // # B
+	} // # B
+	t := template.Must(template.ParseFiles("templates/simple.html")) // # C
+	t.Execute(w, p)                                                  // # D
 }
 func main() {
-	http.HandleFunc("/", displayPage)
-	http.ListenAndServe(":8080", nil)
+	http.HandleFunc("/", displayPage) // # E
+	http.ListenAndServe(":8080", nil) // # E
 }

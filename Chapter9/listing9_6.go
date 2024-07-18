@@ -5,8 +5,7 @@ import (
 	"net/http"
 )
 
-var t = template.Must(template.ParseFiles("templates/simple.html"))
-
+var t = template.Must(template.ParseFiles("templates/simple.html")) // # A
 type Page struct {
 	Title, Content string
 }
@@ -16,7 +15,7 @@ func displayPage(w http.ResponseWriter, r *http.Request) {
 		Title:   "An Example",
 		Content: "Have fun stormin’ da castle.",
 	}
-	t.Execute(w, p)
+	t.Execute(w, p) // # B
 }
 func main() {
 	http.HandleFunc("/", displayPage)

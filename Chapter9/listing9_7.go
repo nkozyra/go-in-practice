@@ -22,13 +22,13 @@ func displayPage(w http.ResponseWriter, r *http.Request) {
 		Title:   "An Example",
 		Content: "Have fun stormin’ da castle.",
 	}
-	var b bytes.Buffer
-	err := t.Execute(&b, p)
-	if err != nil {
-		fmt.Fprint(w, "A error occured.")
+	var b bytes.Buffer      // # A
+	err := t.Execute(&b, p) // # A
+	if err != nil {         // # B
+		fmt.Fprint(w, "A error occured.") // # B
 		return
 	}
-	b.WriteTo(w)
+	b.WriteTo(w) // # C
 }
 func main() {
 	http.HandleFunc("/", displayPage)

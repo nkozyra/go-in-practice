@@ -8,7 +8,7 @@ import (
 var t *template.Template
 
 func init() {
-	t = template.Must(template.ParseFiles("index.html", "head.html"))
+	t = template.Must(template.ParseFiles("index.html", "head.html")) // # A
 }
 
 type Page struct {
@@ -20,9 +20,9 @@ func displayPage(w http.ResponseWriter, r *http.Request) {
 		Title:   "An Example",
 		Content: "Have fun stormin’ da castle.",
 	}
-	t.ExecuteTemplate(w, "index.html", p)
+	t.ExecuteTemplate(w, "index.html", p) // # B
 }
 func main() {
-	http.HandleFunc("/", displayPage)
-	http.ListenAndServe(":8080", nil)
+	http.HandleFunc("/", displayPage) // # C
+	http.ListenAndServe(":8080", nil) // # C
 }

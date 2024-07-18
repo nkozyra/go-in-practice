@@ -33,6 +33,9 @@ func routeComments(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	http.HandleFunc("/comments", routeComments)
+
+	fileServer := http.FileServer(http.Dir("./static/"))
+	http.Handle("/static/", http.StripPrefix("/static", fileServer))
 	if err := http.ListenAndServe(":8085", nil); err != nil {
 		panic(err)
 	}
