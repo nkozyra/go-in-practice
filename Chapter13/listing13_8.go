@@ -1,23 +1,14 @@
 package main
-
 import (
-	"log"
-	"strings"
-
-	"github.com/bytedance/sonic"
+     "encoding/json"
+     "fmt"
 )
-
+type Name struct {
+     First string `json:"firstName"` // # A
+     Last  string `json:"lastName "` // # A
+}
 func main() {
-	var receiver = []map[string]interface{}{}
-	jsonData := strings.NewReader(`
-		[
-			{ "email": "inigo@montoya.example.com", "name": "Inigo Montoya" },
-			{ "email": "fezzik@example.com", "name": "Fezzik" },
-		]
-	`)
-	decoder := sonic.ConfigDefault.NewDecoder(jsonData)
-	decoder.Decode(&receiver)
-	for k := range receiver {
-		log.Println(receiver[k])
-	}
+     n := &Name{"Inigo", "Montoya"}
+     data, _ := json.Marshal(n) // # B
+     fmt.Printf("%s\n", data)B // # B
 }

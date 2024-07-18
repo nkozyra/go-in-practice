@@ -1,36 +1,36 @@
 package main
 
 import (
-	"context"
-	"log"
-	"os"
-	"time"
-
-	kafka "https://github.com/segmentio/kafka-go"
+	"fmt"
+	"strconv"
 )
 
 func main() {
-	topic := "media"
-	kafkaHost := os.Getenv("KAFKA_HOST")
-	if kafkaHost == "" {
-		panic("KAFKA_HOST environment variable not set")
-	}
-	conn, err := kafka.DialLeader(context.Background(), "tcp", kafkaHost, topic, 0)
-	if err != nil {
-		panic(err)
-	}
-	conn.SetReadDeadline(time.Now().Add(30 * time.Second))
-	batch := conn.ReadBatch(10e3, 1e6)
-
-	message := make([]byte, 10e3) // 10KB max per message
-	for {
-		n, err := batch.Read(message)
-		if err != nil {
-			break
+	var a uint8 = 2
+	var b int = 37
+	var c string = "3.2"
+	res := sum(a, b, c) // # A
+	fmt.Printf("Result: %f\n", res)
+}
+func sum(v ...interface{}) float64 {
+	var res float64 = 0
+	for _, val := range v { // # B
+		switch val.(type) { // # B
+		case int: // # C
+			res += float64(val.(int)) // # C
+		case int64: // # C
+			res += float64(val.(int64)) // # C
+		case uint8: // # C
+			res += float64(val.(uint8)) // # C
+		case string: // # D
+			a, err := strconv.ParseFloat(val.(string), 64) // # D
+			if err != nil {                                // # D
+				panic(err) // # D
+			} // # D
+			res += a // # D
+		default: // # E
+			fmt.Printf("Unsupported type %T. Ignoring.\n", val) // # E
 		}
 	}
-	log.Println(string(message))
-	// get details of media upload, transcode media or pass to another service
-	batch.Close()
-	conn.Close()
+	return res
 }
