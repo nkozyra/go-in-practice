@@ -29,11 +29,11 @@ var ks = []byte(`{
 }`)
 
 func main() {
-	var f interface{}
-	err := json.Unmarshal(ks, &f)
-	if err != nil {
-		fmt.Println(err)
-		os.Exit(1)
+	var f interface{}             // # B
+	err := json.Unmarshal(ks, &f) // # C
+	if err != nil {               // # D
+		fmt.Println(err) // # D
+		os.Exit(1)       // # D
 	}
-	fmt.Println(f)
+	fmt.Println(f) // # E
 }

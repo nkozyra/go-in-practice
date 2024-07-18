@@ -10,7 +10,7 @@ type testMessage struct {
 	Message string `json:"message"`
 }
 
-func displayTest(w http.ResponseWriter, r *http.Request) {
+func displayTest(w http.ResponseWriter, r *http.Request) { // # A
 	data := testMessage{"A test message."}
 	b, err := json.Marshal(data)
 	if err != nil {
@@ -21,6 +21,6 @@ func displayTest(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprint(w, string(b))
 }
 func main() {
-	http.HandleFunc("/api/v1/test", displayTest)
+	http.HandleFunc("/api/v1/test", displayTest) // # B
 	http.ListenAndServe(":8080", nil)
 }

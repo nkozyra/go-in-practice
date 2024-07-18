@@ -8,9 +8,9 @@ import (
 )
 
 func main() {
-	cc := &http.Client{Timeout: time.Second}
-	res, err := cc.Get("http://www.manning.com")
-	if err != nil {
+	cc := &http.Client{Timeout: time.Second}     // # A
+	res, err := cc.Get("http://www.manning.com") // # B
+	if err != nil {                              // # C
 		panic(err)
 	}
 	b, err := ioutil.ReadAll(res.Body)

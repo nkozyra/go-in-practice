@@ -5,20 +5,20 @@ import (
 	"fmt"
 )
 
-type Person struct {
-	Name string `json:"name"`
-}
+type Person struct { // # A
+	Name string `json:"name"` // # A
+} // # A
 
-var JSON = `{ 
-  "name": "Miracle Max" 
-}`
+var JSON = `{ // # B
+  "name": "Miracle Max" // # B
+}` // # B
 
 func main() {
-	var p Person
-	err := json.Unmarshal([]byte(JSON), &p)
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-	fmt.Println(p)
+	var p Person                            // # C
+	err := json.Unmarshal([]byte(JSON), &p) // # D
+	if err != nil {                         // # E
+		fmt.Println(err) // # E
+		return           // # E
+	} // # E
+	fmt.Println(p) // # F
 }
