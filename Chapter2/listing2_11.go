@@ -2,32 +2,24 @@ package main
 
 import (
 	"fmt"
+	"os"
 
-	"github.com/kylelemons/go-gypsy/yaml"
+	"github.com/go-ini/ini" // #A
 )
 
 func main() {
-	config, err := yaml.ReadFile("conf.yaml")
+	config, err := ini.Load("conf.ini") // #A
 	if err != nil {
 		fmt.Println(err)
-		return
+		os.Exit(1)
 	}
-	var path string
-	var enabled bool
 
-	path, err = config.Get("path")
+	fmt.Println(config.Section("Section").Key("path").String()) // #B
+
+	enabled, err := config.Section("Section").Key("enabled").Bool() // #C
 	if err != nil {
-		fmt.Println("`path` flag not set in conf.yaml")
-		return
+		fmt.Println(err)
+		os.Exit(1)
 	}
-
-	enabled, err = config.GetBool("enabled")
-	if err != nil {
-		fmt.Println("`enabled` flag not set in conf.yaml")
-		return
-	}
-
-	fmt.Println("path", path)
-	fmt.Println("enabled", enabled)
-
+	fmt.Println(enabled) // #D
 }

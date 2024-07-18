@@ -1,27 +1,33 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
-	"os"
+
+	"github.com/kylelemons/go-gypsy/yaml" // #A
 )
 
-type configuration struct {
-	Enabled bool
-	Path    string
-}
-
 func main() {
-	file, err := os.Open("config.json")
+	config, err := yaml.ReadFile("conf.yaml") // #B
 	if err != nil {
-		panic("File config.json not found!")
+		fmt.Println(err)
+		return
 	}
-	defer file.Close()
-	decoder := json.NewDecoder(file)
-	conf := configuration{}
-	err = decoder.Decode(&conf)
+	var path string
+	var enabled bool
+
+	path, err = config.Get("path")
 	if err != nil {
-		fmt.Println("Error:", err)
+		fmt.Println("`path` flag not set in conf.yaml", err)
+		return
 	}
-	fmt.Println(conf.Path)
+
+	enabled, err = config.GetBool("enabled")
+	if err != nil {
+		fmt.Println("`enabled` flag not set in conf.yaml", err)
+		return
+	}
+
+	fmt.Println("path", path)       // #C
+	fmt.Println("enabled", enabled) // #C
+
 }

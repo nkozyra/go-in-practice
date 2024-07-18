@@ -2,24 +2,23 @@ package main
 
 import (
 	"fmt"
+	"net/http"
 	"os"
-
-	"github.com/go-ini/ini"
 )
 
 func main() {
-	config, err := ini.Load("conf.ini")
-	if err != nil {
-		fmt.Println("conf.ini not found")
-		os.Exit(1)
+	var port string
+	if port = os.Getenv("PORT"); port == "" { // #A
+		panic("environment variable PORT has not been set!") // #B
 	}
+	http.HandleFunc("/", homePage)
+	http.ListenAndServe(":"+port, nil) // #C
+}
 
-	fmt.Println(config.Section("Section").Key("path").String())
-
-	enabled, err := config.Section("Section").Key("enabled").Bool()
-	if err != nil {
-		fmt.Println("enabled is not set!")
-		os.Exit(1)
+func homePage(res http.ResponseWriter, req *http.Request) {
+	if req.URL.Path != "/" {
+		http.NotFound(res, req)
+		return
 	}
-	fmt.Println(enabled)
+	fmt.Fprint(res, "The homepage.")
 }

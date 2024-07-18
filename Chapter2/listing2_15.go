@@ -3,43 +3,38 @@ package main
 import (
 	"fmt"
 	"net/http"
-	"os"
-	"os/signal"
-	"time"
+	"strings"
 )
 
 func main() {
-	handleFunc := newHandler()
-	server := &http.Server{
-		Addr:    ":8082",
-		Handler: handleFunc,
-	}
-
-	ch := make(chan os.Signal, 1)
-	signal.Notify(ch, os.Interrupt, os.Kill)
-
-	go func() {
-		server.ListenAndServe()
-	}()
-
-	<-ch
-	time.Sleep(5 * time.Second)
-	if err := server.Shutdown(nil); err != nil {
+	http.HandleFunc("/hello", helloHandler)      // #A
+	http.HandleFunc("/goodbye/", goodbyeHandler) // #A
+	http.HandleFunc("/", homePageHandler)        // #A
+	if err := http.ListenAndServe(":8080", nil); err != nil {
 		panic(err)
-	}
+	} // #B
 }
-
-type handler struct{}
-
-func newHandler() *handler {
-	return &handler{}
-}
-
-func (h *handler) ServeHTTP(res http.ResponseWriter, req *http.Request) {
-	query := req.URL.Query()
-	name := query.Get("name")
-	if name == "" {
+func helloHandler(res http.ResponseWriter, req *http.Request) { // #C
+	query := req.URL.Query()  // #D
+	name := query.Get("name") // #D
+	if name == "" {           // #D
 		name = "Inigo Montoya"
 	}
 	fmt.Fprint(res, "Hello, my name is ", name)
+}
+func goodbyeHandler(res http.ResponseWriter, req *http.Request) { // #E
+	path := req.URL.Path              // #F
+	parts := strings.Split(path, "/") // #F
+	name := parts[2]                  // #F
+	if name == "" {                   // #F
+		name = "Inigo Montoya" // #F
+	} // #F
+	fmt.Fprint(res, "Goodbye ", name)
+}
+func homePageHandler(res http.ResponseWriter, req *http.Request) { // #G
+	if req.URL.Path != "/" { // #H
+		http.NotFound(res, req) // #H
+		return                  // #H
+	} // #H
+	fmt.Fprint(res, "The homepage.")
 }
