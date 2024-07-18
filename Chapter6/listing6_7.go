@@ -6,7 +6,7 @@ import (
 )
 
 func main() {
-	file, err := os.OpenFile("logging.log", os.O_RDWR|os.O_CREATE, 0755)
+	file, err := os.OpenFile("logging.log", os.O_RDWR|os.O_CREATE, 0755) // # A
 	if err != nil {
 		panic("could not open log file")
 	}

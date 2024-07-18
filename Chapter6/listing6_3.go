@@ -6,9 +6,9 @@ import (
 )
 
 type user struct {
-	username  string `json:"username"`
+	username  string `json:"username"` // # A
 	Email     string `json:"email"`
-	firstName string
+	firstName string // # A
 }
 
 func main() {
@@ -19,7 +19,7 @@ func main() {
 		firstName: "Joe",
 	}
 
-	out, err := json.Marshal(m)
+	out, err := json.Marshal(m) // # B
 	if err != nil {
 		panic("could not marshal")
 	}

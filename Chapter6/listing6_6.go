@@ -18,24 +18,24 @@ func (l myLogger) Write(msg []byte) (int, error) {
 	caller := ""
 
 	frameCount := 0
-	for {
+	for { // # A
 		frameCount++
 		fr, hasMore := frames.Next()
 
 		if hasMore {
-			caller = fr.Function
+			caller = fr.Function // # B
 		} else {
 			break
 		}
 	}
 
-	output := fmt.Sprintf("%s%s - %s%s (called from %s%s)", "\033[32m", time.Now().Format("2006/01/02 3:04:05 pm"), "\033[0m", strings.TrimSpace(string(msg)), "\033[35m", caller)
+	output := fmt.Sprintf("%s%s - %s%s (called from %s%s)", "\033[32m", time.Now().Format("2006/01/02 3:04:05 pm"), "\033[0m", strings.TrimSpace(string(msg)), "\033[35m", caller) // # C
 	return fmt.Println(output)
 }
 
 func main() {
 	myLog := new(myLogger)
-	log.SetFlags(0)
+	log.SetFlags(0) // # D
 	log.SetOutput(myLog)
 	go concurrentLog()
 	for i := 0; i < 10; i++ {

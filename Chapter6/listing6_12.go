@@ -9,20 +9,20 @@ import (
 func main() {
 	var input string
 	fmt.Println("Enter a number for fizzbuzz")
-	fmt.Scanln(&input)
+	fmt.Scanln(&input) // # A
 
 	numInput, err := strconv.ParseInt(input, 10, 16)
 	if err != nil {
 		panic("that's not a number!")
 	}
 
-	result := fizzbuzz(numInput)
+	result := fizzbuzz(numInput) // # C
 	fmt.Println("result:", result)
 }
 
 func fizzbuzz(n int64) string {
 	var fizzbuzzes []string
-	for i := int64(0); i < n; i++ {
+	for i := int64(0); i < n; i++ { // # B
 		v := ""
 		isThree := i%3 == 0
 		isFive := i%5 == 0

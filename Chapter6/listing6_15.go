@@ -7,12 +7,12 @@ import (
 
 func summedRuneCodes(input string) int16 {
 	value := 0
-	inRunes := strings.Map(func(r rune) rune {
+	inRunes := strings.Map(func(r rune) rune { // # A
 		return r
 	}, input)
 
 	for r := range inRunes {
-		value += int(inRunes[r])
+		value += int(inRunes[r]) // # B
 	}
 
 	return int16(value)

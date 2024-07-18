@@ -11,7 +11,7 @@ func main() {
 
 func bubbleSort(in []int) []int {
 	sorted := false
-	for !sorted {
+	for !sorted { // # A
 		sorted = true
 		for i := 1; i < len(in); i++ {
 			if in[i-1] > in[i] {

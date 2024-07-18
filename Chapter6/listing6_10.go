@@ -4,12 +4,12 @@ import (
 	"runtime/debug"
 )
 
-func main() {
+func main() { // # A
 	foo()
 }
-func foo() {
+func foo() { // # A
 	bar()
 }
-func bar() {
-	debug.PrintStack()
+func bar() { // # A
+	debug.PrintStack() // # B
 }
