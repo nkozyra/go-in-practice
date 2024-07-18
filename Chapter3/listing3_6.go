@@ -4,33 +4,31 @@ import (
 	"fmt"
 )
 
-type Animal interface {
+type Animal interface { // #A
 	speak()
 }
 
-type Cat struct{}
-
+type Cat struct{} // #B
 func (c Cat) speak() {
-	fmt.Println("meow")
+	fmt.Println("meow") // #D
 }
 
-func NewCat() *Cat {
+func NewCat() *Cat { // #C
 	return &Cat{}
 }
 
-type Dog struct{}
-
+type Dog struct{} // #B
 func (d Dog) speak() {
-	fmt.Println("woof")
+	fmt.Println("woof") // #D
 }
 
-func NewDog() *Dog {
+func NewDog() *Dog { // #C
 	return &Dog{}
 }
 
-type Llama struct{}
+type Llama struct{} // #B
 
-func NewLlama() *Llama {
+func NewLlama() *Llama { // #C
 	return &Llama{}
 }
 

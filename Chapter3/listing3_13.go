@@ -1,17 +1,9 @@
-package main
-
-import (
-	"fmt"
-)
-
-type Numeric interface {
-	~int8 | int16 | int32 | int64 | float32 | float64
-}
+import "pkg.go.dev/golang.org/x/exp/constraints"
 
 type Smallint int8
 
-func doubler[T Numeric](value T) T {
-	return value * 2
+func doubler[T constraints.Integer](value T) T {
+	return value * T(2)
 }
 
 func main() {

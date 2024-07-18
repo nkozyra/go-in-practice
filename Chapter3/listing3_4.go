@@ -5,10 +5,10 @@ import (
 	"fmt"
 )
 
-type Animal struct {
-	Name           string  `json:"animal_name"`
-	ScientificName string  `json:"scientific_name"`
-	Weight         float32 `json:"animal_average_weight"`
+type Animal struct { // #A
+	Name           string  `json:"animal_name"`           // #B
+	ScientificName string  `json:"scientific_name"`       // #B
+	Weight         float32 `json:"animal_average_weight"` // #B
 }
 
 func main() {
@@ -16,11 +16,11 @@ func main() {
 		Name:           "cat",
 		ScientificName: "Felis catus",
 		Weight:         10.5,
-	}
+	} // #C
 
 	output, err := json.Marshal(a)
 	if err != nil {
 		panic("couldn't encode json")
 	}
-	fmt.Println(string(output))
+	fmt.Println(string(output)) // #D
 }

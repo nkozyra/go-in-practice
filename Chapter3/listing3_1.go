@@ -5,7 +5,7 @@ import (
 )
 
 func main() {
-	animal := struct {
+	animal := struct { // #A
 		name  string
 		speak func() string
 	}{
@@ -15,5 +15,5 @@ func main() {
 		},
 	}
 
-	fmt.Println(fmt.Sprintf("our animal's name is %s and it says %s", animal.name, animal.speak()))
+	fmt.Println(fmt.Sprintf("our animal's name is %s and it says %s", animal.name, animal.speak())) // #B
 }

@@ -13,16 +13,16 @@ type Dog struct {
 }
 
 type AnimalType interface {
-	Cat | Dog
+	Cat | Dog // #A
 }
 
-type Animal[T AnimalType] struct {
+type Animal[T AnimalType] struct { // #B
 	value       T
 	AnimalNoise func() string
 }
 
-func (a Animal[T]) Speak() {
-	fmt.Println(fmt.Sprintf("we got a %T", a.value))
+func (a Animal[T]) Speak() { // #C
+	fmt.Println(fmt.Sprintf("we got a %T", a.value)) // #A
 	fmt.Println(a.AnimalNoise())
 }
 

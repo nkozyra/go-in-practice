@@ -5,7 +5,7 @@ import (
 	"unicode"
 )
 
-func filter[T any](items []T, fx func(T) bool) []T {
+func filter[T any](items []T, fx func(T) bool) []T { // #A
 	var filtered []T
 	for _, v := range items {
 		if fx(v) {
@@ -18,7 +18,7 @@ func filter[T any](items []T, fx func(T) bool) []T {
 func main() {
 	strings := []string{"My", "name", "is", "Inigo", "Montoya"}
 
-	strings = filter[string](strings, func(s string) bool {
+	strings = filter[string](strings, func(s string) bool { // #B
 		return unicode.IsUpper(rune(s[0]))
 	})
 
