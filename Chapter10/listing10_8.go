@@ -1,14 +1,14 @@
 package main
 
 import (
-	_ "embed"
+	_ "embed" // # A
 	"fmt"
 	"log"
 )
 
-//go:embed files/example.html
-var myString string
+//go:embed files/example.html // # B
+var myString string // # C
 
 func main() {
-	log.Println(fmt.Sprintf("embedded value: %s", myString))
+	log.Println(fmt.Sprintf("embedded value: %s", myString)) // # D
 }
