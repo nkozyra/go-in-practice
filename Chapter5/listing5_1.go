@@ -9,11 +9,11 @@ import (
 
 func main() {
 	fmt.Println("Type anything below for up to 30 seconds")
-	go echo(os.Stdin, os.Stdout)
-	time.Sleep(30 * time.Second)
-	fmt.Println("Timed out.")
-	os.Exit(0)
+	go echo(os.Stdin, os.Stdout) // # A
+	time.Sleep(30 * time.Second) // # B
+	fmt.Println("Timed out.")    // # C
+	os.Exit(0)                   // # D
 }
-func echo(in io.Reader, out io.Writer) {
-	io.Copy(out, in)
+func echo(in io.Reader, out io.Writer) { // # E
+	io.Copy(out, in) // # F
 }

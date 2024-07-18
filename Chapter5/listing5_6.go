@@ -2,10 +2,8 @@ package main
 
 import (
 	// Same as before…
-	"bufio"
 	"fmt"
 	"os"
-	"strings"
 	"sync"
 )
 
@@ -27,26 +25,25 @@ func main() {
 	}
 	wg.Wait()
 	fmt.Println("Words that appear more than once:")
-	w.Lock()
+	w.Lock()         // # A
+	defer w.Unlock() // # A
 	for word, count := range w.found {
 		if count > 1 {
 			fmt.Printf("%s: %d\n", word, count)
 		}
 	}
-	w.Unlock()
 }
 
 type words struct {
-	sync.Mutex
-	found map[string]int
+	sync.Mutex // # B
+	found      map[string]int
 }
 
 func newWords() *words {
 	return &words{found: map[string]int{}}
 }
-
 func (w *words) add(word string) {
-	w.Lock()
+	w.Lock() // # C
 	defer w.Unlock()
 	count, ok := w.found[word]
 	if !ok {
@@ -55,18 +52,6 @@ func (w *words) add(word string) {
 	}
 	w.found[word] = count + 1
 }
-
 func tallyWords(filename string, dict *words) error {
-	file, err := os.Open(filename)
-	if err != nil {
-		return err
-	}
-	defer file.Close()
-	scanner := bufio.NewScanner(file)
-	scanner.Split(bufio.ScanWords)
-	for scanner.Scan() {
-		word := strings.ToLower(scanner.Text())
-		dict.add(word)
-	}
-	return scanner.Err()
+	// Unchanged from before
 }

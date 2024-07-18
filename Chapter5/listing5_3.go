@@ -2,38 +2,28 @@ package main
 
 import (
 	"compress/gzip"
-	"fmt"
 	"io"
 	"os"
-	"sync"
 )
 
 func main() {
-	var wg sync.WaitGroup
-	for _, file := range os.Args[1:] {
-		wg.Add(1)
-		go func(filename string) {
-			compress(filename)
-			wg.Done()
-		}(file)
-	}
-	wg.Wait()
-	fmt.Printf("Compressed %d files\n", len(os.Args[1:]))
+	for _, file := range os.Args[1:] { // # A
+		compress(file) // # A
+	} // # A
 }
 func compress(filename string) error {
-	in, err := os.Open(filename)
+	in, err := os.Open(filename) // # B
 	if err != nil {
 		return err
 	}
 	defer in.Close()
-	out, err := os.Create(filename + ".gz")
+	out, err := os.Create(filename + ".gz") // # C
 	if err != nil {
 		return err
 	}
 	defer out.Close()
-	gzout := gzip.NewWriter(out)
-	_, err = io.Copy(gzout, in)
+	gzout := gzip.NewWriter(out) // # D
+	_, err = io.Copy(gzout, in)  // # E
 	gzout.Close()
 	return err
-
 }

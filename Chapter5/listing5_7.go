@@ -1,30 +1,28 @@
 package main
 
 import (
-	"fmt"
 	"os"
 	"time"
 )
 
 func main() {
-	echo := make(chan []byte)
-	go readStdin(echo)
+	echo := make(chan []byte) // # A
+	go readStdin(echo)        // # B
 	for {
-		select {
-		case buf := <-echo:
-			os.Stdout.Write(buf)
-		case <-time.After(30 * time.Second):
-			fmt.Println("Timed out")
-			os.Exit(0)
-		}
+		select { // # C
+		case buf := <-echo: // # D
+			os.Stdout.Write(buf) // # D
+		case <-time.After(30 * time.Second): // # E
+			break // # E
+		} // # D
 	}
 }
-func readStdin(out chan<- []byte) {
-	for {
-		data := make([]byte, 1024)
-		l, _ := os.Stdin.Read(data)
+func readStdin(out chan<- []byte) { // # F
+	for { // # F
+		data := make([]byte, 1024)  // # F
+		l, _ := os.Stdin.Read(data) // # F
 		if l > 0 {
-			out <- data
+			out <- data // # G
 		}
 	}
 }

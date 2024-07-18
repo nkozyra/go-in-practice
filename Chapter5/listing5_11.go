@@ -6,42 +6,30 @@ import (
 )
 
 func main() {
-	msg := make(chan string)
-	done := make(chan bool)
-	defer close(done)
-	until := time.After(5 * time.Second)
-	go send(msg, done)
-	// for {
-	// 	select {
-	// 	case m := <-msg:
-	// 		fmt.Println("Message:", m)
-	// 	case <-until:
-	// 		done <- true
-	// 		time.Sleep(500 * time.Millisecond)
-	// 		return
-	// 	}
-	// }
+	msg := make(chan string) // #A
+	done := make(chan bool)  // #B
+	go send(msg, done) // #C
 	for {
 		select {
-		case <-until:
+		case m := <-msg: // #D
+			log.Println(m)
+		case <-time.After(5 * time.Second): // #E
 			done <- true
 			return
 		}
 	}
-	for v := range until {
-		log.Println(v)
-	}
-	log.Println("hey")
 }
+
 func send(ch chan<- string, done <-chan bool) {
 	for {
 		select {
-		case <-done:
+		case <-done: // #G
+			log.Println("Done")
 			close(ch)
 			return
 		default:
-			ch <- "message from send"
-			time.Sleep(500 * time.Millisecond)
+			ch <- "hello" #F
+			time.Sleep(500 * time.Millisecond) // #G
 		}
 	}
 }
