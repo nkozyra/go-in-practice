@@ -13,7 +13,7 @@ func count() { // #A
 }
 func main() {
 	go count() // #B
-	time.Sleep(time.Millisecond * 2)
+	time.Sleep(time.Millisecond * 20)
 	fmt.Println("Hello World")
-	time.Sleep(time.Millisecond * 5)
+	time.Sleep(time.Millisecond * 10)
 }
