@@ -7,7 +7,7 @@ import (
 
 func main() {
 	ch := make(chan bool)
-	timeout := time.After(600 * time.Millisecond)
+	timeout := time.After(1600 * time.Millisecond)
 	go send(ch) // #A
 	for {       // #A
 		select {
@@ -27,7 +27,7 @@ func main() {
 	}
 }
 func send(ch chan bool) { // #F
-	time.Sleep(120 * time.Millisecond)
+	time.Sleep(800 * time.Millisecond)
 	ch <- true
 	close(ch)
 	log.Println("Sent and closed")

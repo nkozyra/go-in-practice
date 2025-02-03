@@ -2,8 +2,10 @@ package main
 
 import (
 	// Same as before…
+	"bufio"
 	"fmt"
 	"os"
+	"strings"
 	"sync"
 )
 
@@ -53,5 +55,16 @@ func (w *words) add(word string) {
 	w.found[word] = count + 1
 }
 func tallyWords(filename string, dict *words) error {
-	// Unchanged from before
+	file, err := os.Open(filename)
+	if err != nil {
+		return err
+	}
+	defer file.Close()
+	scanner := bufio.NewScanner(file) // # I
+	scanner.Split(bufio.ScanWords)    // # I
+	for scanner.Scan() {              // # I
+		word := strings.ToLower(scanner.Text()) // # I
+		dict.add(word)
+	}
+	return scanner.Err()
 }
