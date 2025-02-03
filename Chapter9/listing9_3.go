@@ -2,18 +2,21 @@ package main
 
 import (
 	"html/template"
+	"log"
 	"net/http"
 )
 
-type comment struct { // # A
+type comment struct { // #A
 	Username string
 	Text     string
 }
 
 type Page struct {
 	Title, Content string
-	Comments       []comment // # A
+	Comments       []comment // #A
 }
+
+var t = template.New("templates")
 
 func routeComments(w http.ResponseWriter, r *http.Request) {
 	p := &Page{
@@ -25,9 +28,16 @@ func routeComments(w http.ResponseWriter, r *http.Request) {
 			{Username: "Phil", Text: "I don’t like to read."},
 		}, // # B
 	}
-	t := template.Must(template.ParseFiles("templates/list.html"))
-	if err := t.Execute(w, p); err != nil {
+	if err := t.ExecuteTemplate(w, "list.html", p); err != nil { // #B
+		log.Println(err)
 		w.WriteHeader(http.StatusInternalServerError)
+	}
+}
+
+func init() {
+	_, err := t.ParseGlob("templates/*.html") // #C
+	if err != nil {
+		log.Fatal("Error loading templates:" + err.Error())
 	}
 }
 
